@@ -1,0 +1,95 @@
+@font-face{
+	font-family:'Roboto';
+	src:url('../fonts/Roboto-Regular.ttf');
+}
+
+@font-face{
+	font-family:'Oswald';
+	src:url('../fonts/Oswald-Regular.ttf');
+}
+
+body{
+	font-family:'Open Sans' sans-serif;	
+	/*background: url(../img/yellowbg.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;*/
+}
+
+h1{
+	font-weight:normal;
+}
+#banner{
+	font-family:'Open Sans Condensed';
+	font-size:120px;
+	text-align:center;
+}
+#sub-banner{
+	font-family:'Open Sans Condensed';
+	font-size:40px;
+	text-align:center;
+}
+.track{
+	text-align:center;
+}
+.btn{
+	margin:10px;
+	width:90%;
+}
+.center{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	width:30%;
+}
+.text-center{
+	text-align:center;
+}
+.error{
+	color:red;
+}
+#my-table{
+	text-align:center;
+	margin:0px auto;
+	width:100%;
+}
+#logoo{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	height:50%;
+	width:50%;
+}
+
+.oswald{
+	font-family:'Oswald';
+	text-align:center;
+}
+.roboto{
+	border-top:40px solid #2980b9;
+	border-bottom:40px solid #2980b9;
+	font-family:'Roboto';
+	font-weight:bold;
+	text-align:center;
+	font-size:30px;
+	margin-top:60px;
+	color:black;
+	padding:20px;
+}
+.cheese{
+	font-family:'Oswald';
+	font-size:40px;
+	color:rgb(214,150,0);
+}
+.track{
+	color:black;
+	font-family:'Oswald';
+}
+.damn{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	width:90%;
+	padding:20px;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Will code for food - Creative jose</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/nav.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <script src="js/modernizr.custom.js"></script>
+    <script src = "js/chart.js"> </script>
+</head>
+<body>
+	<nav class="clearfix">
+		<ul class="clearfix">
+			<li><a href="index.html"><i class="icon ion-home"> &nbsp;</i>Home</a></li>
+			<li><a href="track.html"><i class="icon ion-person">&nbsp;</i>Track</a></li>	
+			<li><a href="projects.html"><i class="ion-ios7-bolt">&nbsp;</i>Search Projects</a></li>
+			<li><a href="about.html"><i class="icon ion-android-folder">&nbsp;</i>About Us</a></li>
+			<li><a href="organizations.html"><i class="icon ion-ios7-people">&nbsp;</i>Organizations</a></li>
+			<li><a href="contact.html"><i class="ion-card">&nbsp;</i>Contact Us</a></li>	
+		</ul>
+		<a href="#" id="pull">Menu</a>
+	</nav>
+    <div class = "row">
+        <div class="col-md-12 track">
+            <h1>Search Projects</h1>
+        </div>
+        <div class="col-md-12">
+        	<h4 class = "track">Search Business Category</h4>
+        	<input type="text" class = "damn" name = "business" id = "business">
+        	<button class = "btn btn-6 btn-6a" id = "baba">Search</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+			<div class="ajax-wrapper">
+				<img src="img/ajax-loader.gif" alt="loading" class = "center loading-image">
+				<h6 class = "track notif">Please Wait<h6>
+			</div>
+        </div>
+    </div>
+    <table id = "my-table">
+    </table>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+	<script src="js/core.js"></script>
+	<script> 
+		$(".ajax-wrapper").hide();
+		$("#baba").click(function(){
+			var search = $("#business").val();
+			var query = {
+			    sql:'SELECT * FROM "baccd784-45a2-4c0c-82a6-61694cd68c9d" WHERE business_category LIKE \'%' + search + '%\'ORDER BY _id DESC limit 10'
+		 	};
+			$.ajax({
+			url: 'http://philgeps.cloudapp.net:5000/api/action/datastore_search_sql',
+			data: query,
+			dataType: 'json'
+			}).done(function(data){
+					$("#my-table").empty();
+					$(".ajax-wrapper").slideToggle();
+					$("#my-table").append("<tr id = 'tr-header'>");
+					$("#tr-header").append("<th> Approved Budget </th>");
+					$("#tr-header").append("<th> Description </th>");
+					$("#tr-header").append("<th> Contract Duration </th>");
+					$("#my-table").append("</tr>");
+				$.each(data.result.records, function(index,element){
+					$("#my-table").append("<tr id ='tr-" + index + "'>");
+					$("#tr-" + index).append("<td> P" + element.approved_budget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td>");
+					$("#tr-" + index).append("<td>" + element.tender_title + "</td>");
+					$("#tr-" + index).append("<td>" + element.contract_duration + " " + element.calendar_type + "</td>");
+					$("#my-table").append("</tr>");
+				});
+			}).error(function(err){
+				$(".ajax-wrapper").hide();
+			});
+			$(".ajax-wrapper").slideToggle();
+		});
+	</script>
+</body>
+</html>

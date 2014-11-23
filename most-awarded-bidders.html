@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Will code for food - Creative jose</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/nav.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <script src="js/modernizr.custom.js"></script>
+    <script src = "js/chart.js"> </script>
+</head>
+<body>
+	<nav class="clearfix">
+		<ul class="clearfix">
+			<li><a href="index.html"><i class="icon ion-home"> &nbsp;</i>Home</a></li>
+			<li><a href="track.html"><i class="icon ion-person">&nbsp;</i>Track</a></li>	
+			<li><a href="projects.html"><i class="ion-ios7-bolt">&nbsp;</i>Search Projects</a></li>
+			<li><a href="about.html"><i class="icon ion-android-folder">&nbsp;</i>About Us</a></li>
+			<li><a href="organizations.html"><i class="icon ion-ios7-people">&nbsp;</i>Organizations</a></li>
+			<li><a href="contact.html"><i class="ion-card">&nbsp;</i>Contact Us</a></li>	
+		</ul>
+		<a href="#" id="pull">Menu</a>
+	</nav>
+    <div class = "row">
+        <div class="col-md-12 track">
+            <h1>Most Awarded Bidders</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+			<div class="ajax-wrapper">
+				<img src="img/ajax-loader.gif" alt="loading" class = "center loading-image">
+				<h6 class = "track notif">Please Wait<h6>
+			</div>
+        </div>
+    </div>
+    <canvas id="myChart" width="400" height="400"></canvas>
+	<div class = "col-md-12">
+		<img src="img/GLogo.gif" alt="walaa" id = "logoo">
+	</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+	<script src="js/core.js"></script>
+	<script> 
+		var query = {
+			    sql:'SELECT awardee_id, awardee, count(awardee_id) as hehe FROM "539525df-fc9a-4adf-b33d-04747e95f120" GROUP BY awardee_id, awardee ORDER BY hehe DESC LIMIT 10 '
+		 };
+		$.ajax({
+			url: 'http://philgeps.cloudapp.net:5000/api/action/datastore_search_sql',
+			data: query,
+			dataType: 'json'
+		}).done(function(data){
+			$(".loading-image").hide();
+			var labels = [];
+			var numericalData = [];
+			$.each(data.result.records, function(index,element){
+				labels[labels.length] = element.awardee;
+				numericalData[numericalData.length] = element.hehe;
+			});
+			var ctx = document.getElementById("myChart").getContext("2d");
+			var data = {
+			    labels: labels,
+			    datasets: [
+			        {
+			            label: "My First dataset",
+			            fillColor: "rgb(68,108,179)",
+			            strokeColor: "rgba(68,108,179,1)",
+			            pointColor: "rgba(220,220,220,1)",
+			            pointStrokeColor: "#fff",
+			            pointHighlightFill: "#fff",
+			            pointHighlightStroke: "rgba(220,220,220,1)",
+			            data:numericalData
+			        },
+			    ]
+			};
+			var myNewChart = new Chart(ctx).Bar(data, {
+ 					barShowStroke: false,
+ 					responsive:true
+			});
+		}).error(function(err){
+			$(".ajax-wrapper").hide();
+		});
+	</script>
+</body>
+</html>

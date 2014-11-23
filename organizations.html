@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Will code for food - Creative jose</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/nav.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <script src="js/modernizr.custom.js"></script>
+    <script src = "js/chart.js"> </script>
+</head>
+<body>
+	<nav class="clearfix">
+		<ul class="clearfix">
+			<li><a href="index.html"><i class="icon ion-home"> &nbsp;</i>Home</a></li>
+			<li><a href="track.html"><i class="icon ion-person">&nbsp;</i>Track</a></li>	
+			<li><a href="projects.html"><i class="ion-ios7-bolt">&nbsp;</i>Search Projects</a></li>
+			<li><a href="about.html"><i class="icon ion-android-folder">&nbsp;</i>About Us</a></li>
+			<li><a href="organizations.html"><i class="icon ion-ios7-people">&nbsp;</i>Organizations</a></li>
+			<li><a href="contact.html"><i class="ion-card">&nbsp;</i>Contact Us</a></li>	
+		</ul>
+		<a href="#" id="pull">Menu</a>
+	</nav>
+    <div class = "row">
+        <div class="col-md-12 track">
+            <h1>Organizations</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+			<div class="ajax-wrapper">
+				<img src="img/ajax-loader.gif" alt="loading" class = "center loading-image">
+				<h6 class = "track notif">Please Wait<h6>
+			</div>
+        </div>
+    </div>
+    <table id = "my-table">
+    </table>
+    <div class="pagination">
+    	<button class = "btn btn-6 btn-6a paginate-button" > Next</button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+	<script src="js/core.js"></script>
+	<script>
+		var count = 0;
+		/*var countQuery = {
+			sql:'SELECT COUNT(*) FROM "ec10e1c4-4eb3-4f29-97fe-f09ea950cdf1"'
+		};
+		$.ajax({
+			url:'http://philgeps.cloudapp.net:5000/api/action/datastore_search_sql',
+			data:countQuery,
+			dataType:'json'
+		}).done(function(data){
+			$.each(data.result.records, function(index,element){
+				$(".pagination").empty();
+				count = Math.ceil(element.count/20);
+				console.log(count);
+				for(var index = 1; index <= count; ++index){
+					$(".pagination").append("<button>" + index + "</button>");
+				}
+			});
+		}).error(function(xhr, ajaxOptions, thrownError){
+			$(".ajax-wrapper").empty();
+			$(".ajax-wrapper").append("<div class = 'error track'>Error in connecting to philgeps. please check your internet connection</div>");
+		});
+		*/
+		var query = {
+			   sql:'SELECT * From "ec10e1c4-4eb3-4f29-97fe-f09ea950cdf1" ORDER BY org_name ASC LIMIT 10 OFFSET 0'
+		 };
+		$.ajax({
+			url: 'http://philgeps.cloudapp.net:5000/api/action/datastore_search_sql',
+			data: query,
+			dataType: 'json'
+		}).done(function(data){
+			$(".loading-image").hide();
+			var labels = [];
+			var numericalData = [];
+			$("#my-table").append("<tr id = 'tr-header'>");
+			$("#tr-header").append("<th> Org Id </th>");
+			$("#tr-header").append("<th> Org Name </th>");
+			$("#tr-header").append("<th> Member Type </th>");
+			$("#my-table").append("</tr>");
+			$.each(data.result.records, function(index,element){
+				$("#my-table").append("<tr id ='tr-" + index + "'>");
+				$("#tr-" + index).append("<td>" + element.org_id + "</td>");
+				$("#tr-" + index).append("<td>" + element.org_name + "</td>");
+				$("#tr-" + index).append("<td>" + element.member_type + "</td>");
+				$("#my-table").append("</tr>");
+			});
+		}).error(function(err){
+			$(".ajax-wrapper").empty();
+			$(".ajax-wrapper").append("<div class = 'error track'>Error in connecting to philgeps. please check your internet connection</div>");
+		});
+
+		$(".paginate-button").click(function(){
+			$(".ajax-wrapper").append("<img src='img/ajax-loader.gif' alt='loading' class = 'center loading-image'>");
+			count++;
+			var offset = count *10;
+			$("#my-table").empty();
+			var query = {
+			   sql:'SELECT * From "ec10e1c4-4eb3-4f29-97fe-f09ea950cdf1" ORDER BY org_name ASC LIMIT 10 OFFSET ' + offset
+			 };
+			$.ajax({
+				url: 'http://philgeps.cloudapp.net:5000/api/action/datastore_search_sql',
+				data: query,
+				dataType: 'json'
+			}).done(function(data){
+				$(".loading-image").hide();
+				var labels = [];
+				var numericalData = [];
+				$("#my-table").append("<tr id = 'tr-header'>");
+				$("#tr-header").append("<th> Org Id </th>");
+				$("#tr-header").append("<th> Org Name </th>");
+				$("#tr-header").append("<th> Member Type </th>");
+				$("#my-table").append("</tr>");
+				$.each(data.result.records, function(index,element){
+					$("#my-table").append("<tr id ='tr-" + index + "'>");
+					$("#tr-" + index).append("<td>" + element.org_id + "</td>");
+					$("#tr-" + index).append("<td>" + element.org_name + "</td>");
+					$("#tr-" + index).append("<td>" + element.member_type + "</td>");
+					$("#my-table").append("</tr>");
+				});
+			}).error(function(err){
+				$(".ajax-wrapper").empty();
+				$(".ajax-wrapper").append("<div class = 'error track'>Error in connecting to philgeps. please check your internet connection</div>");
+			});
+		});
+
+	</script>
+</body>
+</html>
